@@ -1,0 +1,7 @@
+app
+*.o
+*.ppm
+*.png
+*.jpg
+*.bpm
+*.swp
