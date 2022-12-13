@@ -1,41 +1,65 @@
-#include<stdio.h>
-typedef struct
-{
- float x,y,z;
-}vec3;
+#include <stdio.h>
+#include <stdlib.h>
+#include "main.h"
 
-typedef struct
+int POS(const int x, const int y, const int w)
 {
- vec3 v1,v2,v3,n1,n2,n3;
-}tri;
-typedef struct 
-{
-	const int w,h;
-	float *pixels;
-} ppm;
-int randi()
-{
-return 0;
-};
-float randf()
-{
-	return 0.0f;
+	return (x * CANAIS) + (CANAIS * w * y);
 }
-int randi_r(int mi,int ma)
+void savePPM_P3(ppm *img)
 {
-return 0;
+
+	printf("P3\n%d %d %d\n", img->w, img->h, 256);
+	//	unsigned char *temp = malloc(CANAIS*img->w*img->h*sizeof(unsigned char));
+	//	free(temp);
+	for (int y = 0; y < img->h; y++)
+	{
+
+		for (int x = 0; x < img->w; x++)
+		{
+			int pos = POS(x, y, img->w);
+			int r = (int)255 * img->pixels[pos];
+			int g = (int)255 * img->pixels[pos + 1];
+			int b = (int)255 * img->pixels[pos + 2];
+			printf("%d %d %d\n", r%254, g%254, b%254);
+
+			//printf("# %f %f %f \n", img->pixels[pos], img->pixels[pos + 1], img->pixels[pos + 2]);
+		}
+	}
 };
-float randf_r(float mi, float ma)
+int randI(unsigned int *seed)
 {
-	return 0.0f;
-};
-float randf_hem()
+	*seed = (rand_a * *seed + rand_c) % rand_m;
+	return *seed;
+}
+
+float randF(unsigned int *seed)
 {
-return 0.0f;
-};
+	return -(float)randI(seed) / rand_m;
+}
 
 int main()
 {
-	printf("ola mundo\n");
-return 0;
+	const int w = 1200, h = 1020;
+	ppm img = {w, h};
+	img.pixels = malloc(CANAIS * w * h * sizeof(tipo));	
+	for (int y = 0; y < h; y++)
+		for (int x = 0; x < w; x++)
+		{
+			unsigned int seed =( (y<<(y+x))% rand_m)+ ((x<<(y+x))% rand_m);
+
+			// float r = (float)x/w;
+			// float g = (float)y/h;
+			float r = randF(&seed);
+			float g = randF(&seed);
+			float b = randF(&seed);
+			int pos = POS(x, y, w);
+			img.pixels[pos] = r;
+			img.pixels[pos + 1] = g;
+			img.pixels[pos + 2] = b;
+		}
+	savePPM_P3(&img);
+	free(img.pixels);
+
+	return 0;
 }
