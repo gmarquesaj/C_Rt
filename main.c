@@ -40,7 +40,7 @@ float randF(unsigned int *seed)
 int main()
 {
 	const int w = 1200, h = 1020;
-	ppm img = {w, h, malloc(CANAIS * w * h * sizeof(tipo))};
+	ppm img = {w, h, malloc(CANAIS * w * h * sizeof(float))};
 
 	for (int y = 0; y < h; y++)
 		for (int x = 0; x < w; x++)
