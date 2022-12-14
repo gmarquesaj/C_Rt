@@ -1,6 +1,8 @@
 all:
 	clear
 	clang main.c -o app -Wall
-#	./app
-	./app > imagem.ppm
-	xdg-open imagem.ppm
+	./app
+	convert imagem.ppm imagem.png
+#	xdg-open imagem.ppm
+	xdg-open imagem.png
+
