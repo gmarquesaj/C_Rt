@@ -50,7 +50,11 @@ int main()
 			float g = (float)y / h;
 			float b = 0.5f;
 #else
-			unsigned int seed = ((y << (y + x)) % rand_m) /* + ((x<<(y+x))% rand_m) */;
+			unsigned int seed = x;
+			for(int i=0;i<y%(w/5);i++)
+			{
+				randI(&seed);
+			}
 			float r = randF(&seed);
 			float g = randF(&seed);
 			float b = randF(&seed);
